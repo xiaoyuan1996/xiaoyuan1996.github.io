@@ -89,18 +89,13 @@
         <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
-            <p>
-                Recently, great progress has been made in video generation technology, attracting the widespread attention of scholars.
-                To apply this technology to downstream applications under resource-constrained conditions, researchers often fine-tune pre-trained models based on parameter-efficient tuning methods such as Adapter or Lora.
-                Although these methods can transfer source domain knowledge to the target domain, fewer training parameters lead to poor fitting ability, and the source domain knowledge may cause the inference process to deviate from the target domain.
-            </p>
-            <p>
-                In this paper, we argue that under limited computing resources, training a smaller video generation model from scratch using only million-level samples can outperform parameter-efficient tuning on larger models in downstream applications: the core lies in the <i>effective utilize of data</i> and <i>curriculum strategy</i> .
-Take animated sticker generation (ASG) as an example, we construct a discrete frame generation network for stickers with low frame rates, ensuring that its parameters meet the requirements of model training under limited resources.
-In order to provide data support for models trained from scratch, we come up with a dual-mask based data utilization strategy, which manages to improve the availability and expand the diversity of limited data.
-To facilitate convergence under dual-mask situation, we propose a difficulty-adaptive curriculum learning method, which decomposes the sample entropy into static and adaptive components so as to obtain samples from easy to difficult.
-The proposed resource-efficient dual-mask training framework is quantitatively and qualitatively superior to efficient-parameter tuning methods such as I2V-Adapter and SimDA on the ASG task, verifying the feasibility of our method on downstream tasks under limited resources.
-            </p>
+            <p>High-quality animated stickers usually contain transparent channels, which are often ignored by current video generation models.
+To generate fine-grained dynamic transparency channels, existing methods can be roughly divided into video matting algorithms and diffusion-based algorithms.
+The methods based on video matting have poor performance in dealing with semi-open areas in stickers, while diffusion-based methods are often used to model a single image, which will lead to local flicker when modeling animated stickers.
+In this paper, we firstly propose an ILDiff method to generate transparent animated stickers through implicit layout distillation, which solves the problems of semi-open area collapse and no consideration of temporal information in existing methods.
+Secondly, we create the Transparent Animated Sticker Dataset (TASD), which contains 0.32M high-quality samples, to provide data support for related fields.
+Extensive experiments demonstrate that ILDiff can produce finer and smoother alpha channels compared to other methods such as LayerDiffusion and MattingAnything.
+             </p>
           </div>
         </div>
       </div>
@@ -113,20 +108,11 @@ The proposed resource-efficient dual-mask training framework is quantitatively a
 
         <hr />
             <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
-                    height="160" src="assets/fig1.jpg"></td>
+                    height="160" src="assets/fig_main.png"></td>
         <center>
             <h5 class="title is-6">Exemplary results of animated sticker generation using our proposed approach, RDTF.
 Our method performs well on different generation tasks: (top) Text&image to GIF, (middle) Prediction, (down) Interpolation.
 Gray boxes indicate text or visual guidance.</h5>
-        </center>
-
-        <hr />
-            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
-                    height="160" src="assets/overview.jpg"></td>
-        <center>
-            <h5 class="title is-6">An overview of resource-efficient multi-task training framework.
-We adopt a model size that can be tolerated under constrained resources and propose a spatio temporal interaction layer to model the discreteness between animated stickers.
-Furthermore, the condition mask and loss mask are designed to enable the model can effectively utilize data through multi-task and short-frame data learning, and the curriculum learning is applied to improve training of resource-constrained model.</h5>
         </center>
 
 
