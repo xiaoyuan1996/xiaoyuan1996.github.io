@@ -89,13 +89,16 @@
         <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
-            <p>High-quality animated stickers usually contain transparent channels, which are often ignored by current video generation models.
-To generate fine-grained dynamic transparency channels, existing methods can be roughly divided into video matting algorithms and diffusion-based algorithms.
+            <p>
+            High-quality animated stickers usually contain transparent channels, which are often ignored by current video generation models.
+To generate fine-grained animated transparency channels, existing methods can be roughly divided into video matting algorithms and diffusion-based algorithms.
 The methods based on video matting have poor performance in dealing with semi-open areas in stickers, while diffusion-based methods are often used to model a single image, which will lead to local flicker when modeling animated stickers.
-In this paper, we firstly propose an ILDiff method to generate transparent animated stickers through implicit layout distillation, which solves the problems of semi-open area collapse and no consideration of temporal information in existing methods.
-Secondly, we create the Transparent Animated Sticker Dataset (TASD), which contains 0.32M high-quality samples, to provide data support for related fields.
-Extensive experiments demonstrate that ILDiff can produce finer and smoother alpha channels compared to other methods such as LayerDiffusion and MattingAnything.
-             </p>
+In this paper, we firstly propose an ILDiff method to generate
+animated transparent  channels through implicit layout distillation, which solves the problems of semi-open area collapse and
+no consideration of temporal information in existing methods.
+Secondly, we create the Transparent Animated Sticker Dataset (TASD), which contains 0.32M high-quality samples with transparent channel, to provide data support for related fields.
+Extensive experiments demonstrate that ILDiff can produce finer and smoother transparent channels compared to other methods such as Matting Anything and Layer Diffusion.
+            </p>
           </div>
         </div>
       </div>
