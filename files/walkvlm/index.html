@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="WalkVLM">
+    <meta name="keywords" content="Text-to-Video, Diffusion Model">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WalkVLM</title>
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.svg">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+
+
+    <style>
+        .left-align {
+            text-align: left;
+        }
+        .center-align {
+            text-align: center;
+        }
+       .doubletextcontainer {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .video-container2 {
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            /* height: 100vh; 使容器高度占满整个视口 */
+        }
+
+.container111 {
+    display: flex;
+    width: 100%;
+}        
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h2 class="title is-2 publication-title">
+                <img class="center" width="170" height="100" src="assets/walkvlm2.png">
+                : Aid Visually Impaired People Walking by Vision Language Model
+            </h2>
+            <div class="is-size-5 publication-authors">
+
+                            <div class="column has-text-centered">
+              <div class="publication-links">
+
+                <span class="link-block">
+                  <a href="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/main_v7.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/appendix_v12.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>Appendix</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code & Dataset (Released Later)</span>
+                    </a>
+                </span>
+              </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+Approximately 200 million individuals around the world suffer from varying degrees of visual impairment, making it crucial to leverage AI technology to offer walking assistance for these people.
+With the recent progress of vision-language models (VLMs), employing VLMs to improve this field has emerged as a popular research topic.
+However, most existing methods are studied on self-built question-answering datasets, lacking a unified training and testing benchmark for walk guidance.
+Moreover, in blind walking task, it is necessary to perform real-time streaming video parsing and generate concise yet informative reminders, which poses a great challenge for VLMs that suffer from redundant responses and low inference efficiency.
+<b>In this paper, we firstly release a diverse, extensive, and unbiased walking awareness dataset, containing 12k video-manual annotation pairs from Europe and Asia to provide a fair training and testing benchmark for blind walking task.
+Furthermore, a WalkVLM model is proposed, which employs chain of thought for hierarchical planning to generate concise but informative reminders and utilizes temporal-aware adaptive prediction to reduce the temporal redundancy of reminders.</b>
+Finally, we have established a solid benchmark for blind walking task and verified the advantages of WalkVLM in stream video processing for this task compared to other VLMs.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+
+<!--        -->
+
+
+    <section class="section" id="background">
+        <h2 class="title is-3">Background</h2>
+
+
+        <hr />
+        <h4 class="title is-5">How the world looks like to visually impairment people?</h4>
+
+        <!-- 视频容器 -->
+        <div class="video-container">
+            <div class="video-item">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/1.mp4" type="video/mp4">
+<!--                    Your browser does not support the video tag.-->
+                </video>
+            </div>
+            <!-- 重复 .video-item 直到你添加完所有的视频 -->
+            <div class="video-item">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/2.mp4" type="video/mp4">
+<!--                    Your browser does not support the video tag.-->
+                </video>
+            </div>
+        </div>
+
+        <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+        <hr />
+
+        <h4 class="title is-5">They are helpless, wandering, and lack the light of life.</h4>
+
+                <!-- 视频容器 -->
+        <div class="video-container">
+            <div class="video-item">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/bk_4s.mp4" type="video/mp4">
+<!--                    Your browser does not support the video tag.-->
+                </video>
+            </div>
+            <!-- 重复 .video-item 直到你添加完所有的视频 -->
+            <div class="video-item">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/bk_2s.mp4" type="video/mp4">
+<!--                    Your browser does not support the video tag.-->
+                </video>
+            </div>
+
+
+        </div>
+
+        <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+                <h2 class="title is-3"></h2>
+
+        <h4 class="title is-5"> </h4>
+        <hr />
+
+        <h4 class="title is-5"><u>Technology for good</u>, let's take action! </h4>
+
+
+    </section>
+
+
+
+    <section class="section" id="dataset">
+        <h2 class="title is-3">Walking Awareness Dataset</h2>
+
+        <hr />
+        <h4 class="title is-5">Annotation pipeline</h4>
+
+<!--        <hr />-->
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/mannul_process.jpg"></td>
+        <center>
+            <h5 class="title is-6 left-align">The data annotation pipeline for constructing the walking awareness dataset. </h5>
+        </center>
+
+
+        <hr />
+        <h4 class="title is-5">Geographical distribution</h4>
+
+<!--        <hr />-->
+<!--            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1000" height="120" src="assets/map.jpg"></td>-->
+<td style="padding-left: 0px; padding-bottom: 0px;">
+    <img class="center" width="667" height="80" src="assets/map.jpg" style="display: block; margin-left: auto; margin-right: auto;">
+</td>
+        <center>
+            <h5 class="title is-6 left-align">Visualization results of the WAD dataset sorted by region.
+    The WAD dataset has a wide range of sources, and the  and categories shown are randomly obtained from the dataset.
+    The pie chart in the lower left corner shows the proportion of video length from different regions. </h5>
+        </center>
+
+       <hr />
+        <h4 class="title is-5">Compared to other datasets</h4>
+
+<!--        <hr />-->
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/data_data.png"></td>
+        <center>
+            <h5 class="title is-6 left-align"> Static information comparison of different datasets in blind walking task. WAD dataset holds a significant advantage in terms of sample numbers, categories, and modalities.</h5>
+        </center>
+
+
+        <hr />
+        <h4 class="title is-5">Data samples</h4>
+
+        <div class="container111">
+            <div class="video-container1">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="info-container1">
+
+                <div class="doubletextcontainer">
+                    <p class="fontsize-data"><strong>Weather Condition: </strong>Sunny</p>
+                    <p><strong>Reminder task</strong></p>
+                </div>
+                <p class="fontsize-data"><strong>Area Type：</strong>Pedestrian Path</p>
+                <p class="fontsize-data"><strong>Danger Level：</strong>Mid</p>
+                <p class="fontsize-data"><strong>Traffic Flow Rating：</strong>Low</p>
+                <p class="fontsize-data"><strong>Summary：</strong>on the sidewalk on the right side of the road, there is a downward step on the left, a yellow car passes on the left side of the road, there is a row of green plants on the right, there is a row of trees at one o'clock direction, there is a sign at two o'clock direction, there are cars parked on the roadside at eleven o'clock direction, the current road is narrow and there are few pedestrians</p>
+                <p class="fontsize-data"><strong>Reminder：</strong>at 11 o'clock direction there is a car, at 1 o'clock direction there is a sign, be careful to avoid.</p>
+            </div>
+        </div>
+
+        <p class="fontsize-data"><strong>Target detection labels. Right-click to open the image in a new tab.</strong></p>
+
+        <table align="center">
+                <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_0.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_1.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_2.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_3.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_4.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_5.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_6.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_7.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_e93770538101c9669e57265fe378776e_1m42s.frame/detect_8.jpg"></td>
+                </tr>
+            </table>
+
+        <div class="container111">
+            <div class="video-container1">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="info-container1">
+                <div class="doubletextcontainer">
+                    <p class="fontsize-data"><strong>Weather Condition: </strong>Overcast</p>
+                    <p><strong>Reminder task</strong></p>
+                </div>
+                <p class="fontsize-data"><strong>Area Type：</strong>Pedestrian Path</p>
+                <p class="fontsize-data"><strong>Danger Level：</strong>High</p>
+                <p class="fontsize-data"><strong>Traffic Flow Rating：</strong>High</p>
+                <p class="fontsize-data"><strong>Summary：</strong>walking on a stone bridge. left side is red, right side is paved with stone bricks. there are stone railings on both sides of the bridge. there are many trees below the opposite side and both sides of the bridge. there is a pedestrian in a black coat about five steps ahead. the large flow of people is mainly concentrated about fifteen steps ahead. there is no road nearby and the traffic flow is zero.</p>
+                <p class="fontsize-data"><strong>Reminder：</strong>at 10 o'clock direction, there are pedestrians passing by. please move slowly towards 11 o'clock direction.</p>
+            </div>
+        </div>
+
+        <p class="fontsize-data"><strong>Target detection labels. Right-click to open the image in a new tab.</strong></p>
+
+        <table align="center">
+                <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_0.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_1.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_2.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_3.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_4.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_5.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_6.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_7.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/20240918-youtube_short_93d2c485fdb77d26f4e13e339c2effa4_3min47s.frame/detect_8.jpg"></td>
+                </tr>
+            </table>
+
+        <div class="container111">
+            <div class="video-container1">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="info-container1">
+                 <div class="doubletextcontainer">
+                    <p class="fontsize-data"><strong>Weather Condition: </strong>Overcast</p>
+                    <p><strong>QA task</strong></p>
+                </div>
+                <p class="fontsize-data"><strong>Area Type：</strong>Pedestrian Path</p>
+                <p class="fontsize-data"><strong>Danger Level：</strong>Low</p>
+                <p class="fontsize-data"><strong>Traffic Flow Rating：</strong>Low</p>
+                <p class="fontsize-data"><strong>Summary：</strong>on a walking path, there are rows of cars parked in front and on the right. on the silver - grey car on the right, there is a black - and - white cow cat squatting. about 15 steps ahead, there is a pedestrian in white. on the left, there is a row of metal railings, and inside the railings are residential buildings. the road is narrow, there are few pedestrians and no vehicles passing.</p>
+                <p class="fontsize-data"><strong>Q：</strong>how about current road situation?</p>
+                <p class="fontsize-data"><strong>A：</strong>the current is a small road with cars parked on both sides. there are few pedestrians on the road. now walk to the left side of the road which is relatively narrow. be careful to avoid the cars parked on the right side and pay attention to safety.</p>
+            </div>
+        </div>
+
+        <p class="fontsize-data"><strong>Target detection labels. Right-click to open the image in a new tab.</strong></p>
+
+        <table align="center">
+                <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_0.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_1.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_2.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_3.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_4.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_5.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_6.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_7.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_ff125a20582daee6473824a70f884c99_4m20s.frame/detect_8.jpg"></td>
+                </tr>
+            </table>
+
+
+        <div class="container111">
+            <div class="video-container1">
+                <video controls>
+                    <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="info-container1">
+                 <div class="doubletextcontainer">
+                    <p class="fontsize-data"><strong>Weather Condition: </strong>Cloudy</p>
+                    <p><strong>QA task</strong></p>
+                </div>
+                <p class="fontsize-data"><strong>Area Type：</strong>Pedestrian Path</p>
+                <p class="fontsize-data"><strong>Danger Level：</strong>Low</p>
+                <p class="fontsize-data"><strong>Traffic Flow Rating：</strong>Mid</p>
+                <p class="fontsize-data"><strong>Summary：</strong>on the walkway, it is sunny, with green belts on the right, shops on the left, the road is narrow, there is a tree and a sign at one o'clock, and there is a bicycle straight ahead, and there are few pedestrians on the current road.</p>
+                <p class="fontsize-data"><strong>Q：</strong>describe the scene?</p>
+                <p class="fontsize-data"><strong>A：</strong>now there is a bicycle parked on the road 5 steps ahead of you. you need to deviate towards the 11 o'clock direction.</p>
+            </div>
+        </div>
+
+        <p class="fontsize-data"><strong>Target detection labels. Right-click to open the image in a new tab.</strong></p>
+
+        <table align="center">
+                <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_0.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_1.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_2.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_3.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_4.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_5.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_6.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_7.jpg"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                            height="160" src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/data_sample/QA20240918-youtube_short_d0c5cfea009cacb1026bcb0bbbb20ee6_2m11s.frame/detect_8.jpg"></td>
+                </tr>
+            </table>
+
+    </section>
+
+
+    <section class="section" id="methods">
+        <hr />
+        <h2 class="title is-3"> WalkVLM</h2>
+
+        <h4 class="title is-5"> Framework </h4>
+
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/fig_main.png"></td>
+        <center>
+            <h5 class="title is-6 left-align">    An overview of the proposed WalkVLM framework.
+    WalkVLM employs CoT-based hierarchical planning to summarize the static attributes and understanding of scenes, thereby facilitating the subsequent reminder and QA tasks.
+    Furthermore, temporal-aware adaptive prediction has been proposed to calculate the trigger state of VLM, thereby reducing the temporal redundancy of outputs.</h5>
+        </center>
+
+        <hr />
+        <h4 class="title is-5"> Quantitative results </h4>
+
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/results.png"></td>
+        <center>
+            <h5 class="title is-6 left-align">   Quantitative comparison of different methods on reminder and QA tasks.
+WalkVLM leads in almost all the TF-IDF, ROUGE, and GPT Score metrics.
+The higher the metric, the better the result.
+Bold and underline indicate the best and the second-best, respectively.</h5>
+        </center>
+
+        <hr />
+        <h4 class="title is-5"> Qualitative results </h4>
+
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/visual.png"></td>
+        <center>
+            <h5 class="title is-6 left-align">       Visualization comparison of different VLM models.
+    Compared to other models, WalkVLM is able to generate concise and informative answers, providing users with a good experience in blind walking.</h5>
+        </center>
+
+
+                <hr />
+        <h4 class="title is-5"> Streaming inference </h4>
+
+        <!-- 视频容器 -->
+        <!-- <div class="video-container"> -->
+            <!-- <div class="video-item"> -->
+                <!-- <video controls> -->
+                    <!-- <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/bk_4s.mp4" type="video/mp4"> -->
+<!--                    Your browser does not support the video tag.-->
+                <!-- </video> -->
+            <!-- </div> -->
+        <!-- </div> -->
+        <div class="video-container2">
+            <video controls style="width: 650px; height: 533px;">
+                <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/comp_movies/stream_comp.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- <video controls style="width: 640px; height: 360px;">
+            <source src="https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm/background/bk_4s.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video> -->
+
+        <br />
+
+        <center>
+            <h5 class="title is-6 left-align">       Visualization comparison of video stream inference on the blind walking task between WalkVLM and MiniCPM-V2.6 with the same parameter magnitude.
+                Our method can generate more concise reminders with lower temporal redundancy, but there is still room for important event ranking, error identification and fine-grained recognition.
+                See Appendix C.3 for a more detailed analysis.
+    </h5>
+        </center>
+
+    </section>
+
+
+
+
+
+  <section class="section" id="Vision">
+        <hr />
+
+        <h2 class="title is-3"> Vision</h2>
+
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+                We are committed to providing walking assistance to approximately 200 million visually impaired individuals worldwide through Vision-Language Model (VLM) technology, improving their quality of life. We have introduced the WalkVLM model and the walking awareness dataset, aimed at generating concise and informative walking reminders.
+                We call on all sectors of society to pay more attention to this group, promote technology for good, and help them better integrate into society. Additionally, we hope to further crowdsourcing more data and resources, making our services more comprehensive and effective.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <p> If you use our work in your research, please cite: </p>
+          <pre><code>
+            @misc{anonymous2024WalkVLM,
+            title={WalkVLM: Aid Visually Impaired People Walking by Vision Language Model},
+            author={Anonymous},
+            archivePrefix={arXiv},
+            primaryClass={cs.CV}}
+      </code></pre>
+        </div>
+      </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <a class="icon-link" href="#">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+            </div>
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>[8] Haiying Xia, Cong Yao, Yumei Tan, and Shuxiang Song. A dataset for the visually impaired walk on the road. Displays, 79:102486, 2023.</p>
+                        <p>[9] Danna Gurari, Qing Li, Abigale J Stangl, Anhong Guo, Chi Lin, Kristen Grauman, Jiebo Luo, and Jeffrey P Bigham. Vizwiz grand challenge: Answering visual questions from blind people. In Proceedings of the IEEE conference on computer vision and pattern recognition, pages 3608–3617,586 2018.</p>
+                        <p>[11] Hao Wang, Jiayou Qin, Ashish Bastola, Xiwen Chen, John Suchanek, Zihao Gong, and Abolfazl Razi. Visiongpt: Llm-assisted real-time anomaly detection for safe visual navigation. arXiv preprint arXiv:2403.12415, 2024.</p>
+                        <p>[17] Zain Merchant, Abrar Anwar, Emily Wang, Souti Chat-topadhyay, and Jesse Thomason. Generating contextually relevant navigation instructions for blind and low vision people. arXiv preprint arXiv:2407.08219, 2024.</p>
+                        <p>[24] Wu Tang, De-er Liu, Xiaoli Zhao, Zenghui Chen, and Chen Zhao. A dataset for the recognition of obstacles on blind sidewalk. Universal Access in the Information Society, 22(1):69–82, 2023.</p>
+                        <p>[36] Yuan Yao, Tianyu Yu, Ao Zhang, Chongyi Wang, Junbo Cui, Hongji Zhu, Tianchi Cai, Haoyu Li, Weilin Zhao, Zhihui He, et al. Minicpm-v: A gpt-4v level mllm on your phone. arXiv preprint arXiv:2408.01800, 2024.</p>
+                        <p>[38] Md Touhidul Islam, Imran Kabir, Elena Ariel Pearce, Md Alimoor Reza, and Syed Masum Billah. Identifying crucial objects in blind and low-vision individuals’ navigation. arXiv preprint arXiv:2408.13175, 2024.</p>
+                        <p>[42] Haoyu Lu, Wen Liu, Bo Zhang, Bingxuan Wang, Kai Dong, Bo Liu, Jingxiang Sun, Tongzheng Ren, Zhuoshu Li, Hao Yang, et al. Deepseek-vl: towards real-world vision-language understanding. arXiv preprint arXiv:2403.05525, 2024.</p>
+                        <p>[43] lex Young, Bei Chen, Chao Li, Chengen Huang, Ge Zhang, Guanwei Zhang, Heng Li, Jiangcheng Zhu, Jianqun Chen, Jing Chang, et al. Yi: Open foundation models by 01. ai. arXiv preprint arXiv:2403.04652, 2024.</p>
+                        <p>[44] Aaron Hurst, Adam Lerer, Adam P Goucher, Adam Perelman, Aditya Ramesh, Aidan Clark, AJ Ostrow, Akila Welihinda, Alan Hayes, Alec Radford, et al. Gpt-4o system card. arXiv preprint arXiv:2410.21276, 2024.</p>
+                        <p>[45] Peng Wang, Shuai Bai, Sinan Tan, Shijie Wang, Zhihao Fan, Jinze Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Yang Fan, Kai Dang, Mengfei Du, Xuancheng Ren, Rui Men, Dayiheng Liu, Chang Zhou, Jingren Zhou, and Junyang Lin. Qwen2-vl: Enhancing vision-language model’s perception of the world at any resolution. arXiv preprint arXiv:2409.12191, 2024.</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>

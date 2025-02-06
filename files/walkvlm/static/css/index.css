@@ -1,0 +1,270 @@
+
+
+
+
+
+.video-container1 {
+    flex: 4;
+    padding-right: 5px;
+}
+.info-container1 {
+    flex: 6;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+video {
+    width: 100%;
+    height: auto;
+}
+
+.fontsize-data {
+    font-size: 13px;
+}
+
+.video-container {
+    display: flex; /* 使用Flexbox布局 */
+    overflow-x: auto; /* 允许水平滚动 */
+    gap: 15px; /* 设置视频之间的间隙为10px */
+}
+
+.video-item {
+    flex: 0 0 auto; /* 不伸缩，不基于flex-basis缩放 */
+    width: 440px; /* 可以设置一个固定宽度，或者根据需要调整 */
+    height: 330px; /* 设置一个固定高度，确保所有视频高度一致 */
+    overflow: hidden; /* 如果视频超出容器，隐藏超出部分 */
+}
+
+.video-item video {
+    width: 100%; /* 视频宽度占满父容器 */
+    height: 100%; /* 视频高度占满父容器 */
+    object-fit: cover; /* 保持视频宽高比，覆盖父容器 */
+}
+
+
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+    background-image: url('https://sprproxy-1258344707.cos.ap-shanghai.myqcloud.com/seraphyuan/ilabel/blind_vlm//bk3_alp.jpg'); /* 替换为你的图片路径 */
+    background-size: cover;
+    /* 设置背景图片位置 */
+    background-position: center;
+    /* 设置背景图片不重复 */
+    background-repeat: no-repeat;
+    /* 设置背景图片固定，不随滚动条滚动 */
+    background-attachment: fixed;
+    background-color: rgba(255, 255, 255, 0.9);
+    /* 页面内容居中 */
+    justify-content: center;
+    align-items: center;
+    /* 移除默认的margin */
+    margin: 0;
+    }
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin-right: 2px;
+  margin-left: 2px;
+  margin-top: 2px;
+  margin-bottom: 50px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 12;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+nav {
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav li {
+  margin: 0 10px;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: #666;
+}
+
+table {}
+
+th,
+td {
+    padding: 0px;
+    /* background-color: lightsteelblue; */
+}
+
+.center {
+    padding: 0px;
+    transition: transform .2s;
+    margin: 0 auto;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
+img {
+    width:  256;
+    height: 256;
+    object-fit: cover;
+}
+
+.center:hover {
+    transform: scale(1.2);
+}
+

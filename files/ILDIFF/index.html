@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="ILDiff">
+    <meta name="keywords" content="Text-to-Video, Diffusion Model">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ILDiff</title>
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.svg">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+
+<section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h2 class="title is-2 publication-title">
+<!--                <img class="center" width="100" height="35" src="assets/RDTF.png">-->
+                ILDiff: Generate Transparent Animated Stickers by Implicit Layout Distillation
+            </h2>
+            <div class="is-size-5 publication-authors">
+
+                            <div class="column has-text-centered">
+              <div class="publication-links">
+
+
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv (Released Later)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code & Dataset (Released Later)</span>
+                    </a>
+                </span>
+              </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+            High-quality animated stickers usually contain transparent channels, which are often ignored by current video generation models.
+To generate fine-grained animated transparency channels, existing methods can be roughly divided into video matting algorithms and diffusion-based algorithms.
+The methods based on video matting have poor performance in dealing with semi-open areas in stickers, while diffusion-based methods are often used to model a single image, which will lead to local flicker when modeling animated stickers.
+In this paper, we firstly propose an ILDiff method to generate
+animated transparent  channels through implicit layout distillation, which solves the problems of semi-open area collapse and
+no consideration of temporal information in existing methods.
+Secondly, we create the Transparent Animated Sticker Dataset (TASD), which contains 0.32M high-quality samples with transparent channel, to provide data support for related fields.
+Extensive experiments demonstrate that ILDiff can produce finer and smoother transparent channels compared to other methods such as Matting Anything and Layer Diffusion.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+
+    <section class="section" id="methods">
+        <hr />
+        <h2 class="title is-3">Method</h2>
+
+        <hr />
+            <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+                    height="160" src="assets/fig_main.png"></td>
+        <center>
+            <h5 class="title is-6">Exemplary results of animated sticker generation using our proposed approach, RDTF.
+Our method performs well on different generation tasks: (top) Text&image to GIF, (middle) Prediction, (down) Interpolation.
+Gray boxes indicate text or visual guidance.</h5>
+        </center>
+
+
+    </section>
+
+           <section class="section" id="visual">
+        <hr />
+        <h2 class="title is-3">TASD Dataset</h2>
+        </center>
+        <table align="center">
+                <div class="center-text">
+                </div>
+                <br>
+                <tr>
+                    <td width="95" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Trigger Word</b></td>
+                    <td width="225" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Description</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>GIF</b></td>
+                    <td width="95" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Trigger Word</b></td>
+                    <td width="225" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Description</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>GIF</b></td>
+                </tr>
+
+                <tr>
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>unhappy</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">In the picture, a cute little brown owl is sitting on the ground with its eyes closed, giving people a drowsy feeling. There is a can of Coca-Cola next to the owl.</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/16f3e2a469c090cd091cae658a313f95.gif"></td>
+
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>hit you</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">The main character is a small green frog with a crown on its head, looking angry or grumpy. The frog is placed in the center of the picture, wearing a blue vest.</td>
+                     <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/325aaea940cae35b66794a0218e76c30.gif"></td>
+
+              </tr>
+
+                <tr>
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>wow</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">A cat is drawn simply with large eyes. The cat is sitting and looking up with a surprised or curious expression on his face, as if he has seen something unexpected or intriguing. The cat's appearance and expression bring a playful and cute quality to this image.</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/f4a760c679147f4b6c2a36c22d2c4f5f.gif"></td>
+
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>shy</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">A cute pink and white pig with a big mouth stands in the center of the picture. The pig looks like it is smiling or expressing happiness because it has a big eye and round face appearance.</td>
+                     <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/3540f06fa1f9f84611f3ff0955554493.gif"></td>
+
+              </tr>
+
+                <tr>
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>good night</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">The main character is a small cartoon character wearing a white coat and glasses, who looks like a doctor or an alien. The character is depicted lying on a bed covered with a blanket, giving a feeling of comfort and warmth.</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/6953290d8eb654a7237ae870bed3fdc1.gif"></td>
+
+                    <td width="95" valign="center" halign="center" align="center"
+                        style="font-size:14px"><br><br><br>hi</td>
+                    <td width="225" valign="center" halign="center" align="center"
+                        style="font-size:14px">A large green lizard-like creature is shown sitting on the floor, absorbed in a book. The lizard appears to be enjoying the book, showing curiosity and a hint of excitement as it reads. This whimsical creature presents a unique and interesting perspective on the joy of reading.</td>
+                     <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/datasets/988c59368053696d6bb7132dcc46fbe6.gif"></td>
+
+              </tr>
+
+
+            </table>
+
+    </section>
+
+    <section class="section" id="results">
+        <hr />
+        <h2 class="title is-3">Compare to Other Methods</h2>
+        </center>
+        <table align="center">
+                <div class="center-text">
+                </div>
+                <br>
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i></i></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Src Img</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>MattingAnything[1]</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>SAM[2]</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>SAM2[3]</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>LayerDiffusion[4]</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Ours</b></td>
+                </tr>
+
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case1 RGB</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_Matting.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_SAM1.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_SAM2.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_LayerDiffusion.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_ILDiff.gif"></td>
+                </tr>
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case1 Alpha</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_AGT_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_Matting_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_SAM1_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_SAM2_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_LayerDiffusion_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/0a80956f8fb3a561dafd9b3f1929a060_ILDiff_alpha.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case2 RGB</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_Matting.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_SAM1.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_SAM2.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_LayerDiffusion.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_ILDiff.gif"></td>
+                </tr>
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case2 Alpha</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_AGT_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_Matting_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_SAM1_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_SAM2_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_LayerDiffusion_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a16d6bdf90a3de54f6322c28212ad56_ILDiff_alpha.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case3 RGB</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_Matting.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_SAM1.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_SAM2.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_LayerDiffusion.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_ILDiff.gif"></td>
+                </tr>
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case3 Alpha</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_AGT_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_Matting_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_SAM1_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_SAM2_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_LayerDiffusion_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6d64aed1b448b47e34b598be7f7261ce_ILDiff_alpha.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case4 RGB</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_Matting.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_SAM1.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_SAM2.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_LayerDiffusion.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_ILDiff.gif"></td>
+                </tr>
+                <tr>
+                    <td width="50" valign="middle" halign="left" align="left"
+                        style="font-size:13px; padding-bottom:20px">&nbsp;&nbsp;<i>Case4 Alpha</i></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_AGT_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_Matting_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_SAM1_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_SAM2_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_LayerDiffusion_alpha.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/6a71e15c9e69c9ceef1d4ef2ca5ac7c7_ILDiff_alpha.gif"></td>
+                </tr>
+
+            </table>
+
+    </section>
+
+
+
+
+
+    <section class="section" id="visual">
+        <hr />
+        <h2 class="title is-3">More Results</h2>
+        </center>
+        <table align="center">
+                <div class="center-text">
+                </div>
+                <br>
+                <tr>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Input GIF</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Output GIF</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Input GIF</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Output GIF</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Input GIF</b></td>
+                    <td width="145" valign="middle" halign="middle" align="center"
+                        style="font-size:14px"><b>Output GIF</b></td>
+                </tr>
+
+                <tr>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/fc563d7521cefcead81b013bf3700a95_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/fc563d7521cefcead81b013bf3700a95_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f67c7ca4d1f3118a6555183c9f2015ed_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f67c7ca4d1f3118a6555183c9f2015ed_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f0f4ea9af3e3f9988d9093491fc6806b_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f0f4ea9af3e3f9988d9093491fc6806b_ILDiff.gif"></td>
+
+              </tr>
+
+                <tr>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/e84417be7f802826125a0a41acea3c80_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/e84417be7f802826125a0a41acea3c80_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f0bb494be297874049872bc2e8ada9d6_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/f0bb494be297874049872bc2e8ada9d6_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/dff6a2dbb2e2f5dddbb1902fd69f5306_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/dff6a2dbb2e2f5dddbb1902fd69f5306_ILDiff.gif"></td>
+
+              </tr>
+
+                <tr>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/dec12ff05b767c02c135a51de68fe9ad_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/dec12ff05b767c02c135a51de68fe9ad_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d13677224c2abe770e0e87605d13270c_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d13677224c2abe770e0e87605d13270c_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d170a6e13d18a9c742117762b715e890_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d170a6e13d18a9c742117762b715e890_ILDiff.gif"></td>
+
+              </tr>
+
+                <tr>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d28f09edfd4d442f2a642d217e24d11f_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d28f09edfd4d442f2a642d217e24d11f_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d7d693e7134ad1823d15e7ac2cec08a4_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/d7d693e7134ad1823d15e7ac2cec08a4_ILDiff.gif"></td>
+
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/c04ef49cee431d28e6d28fb6e7b29b3c_AGT_rgb.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="145"
+                            height="145" src="assets/compare_methods/c04ef49cee431d28e6d28fb6e7b29b3c_ILDiff.gif"></td>
+
+              </tr>
+
+            </table>
+
+    </section>
+
+
+
+
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <p> If you use our work in your research, please cite: </p>
+          <pre><code>
+            @misc{anonymous2024ILDiff,
+            title={ILDiff: Generate Transparent Animated Stickers by Implicit Layout Distillation},
+            author={Anonymous},
+            archivePrefix={arXiv},
+            primaryClass={cs.CV}}
+      </code></pre>
+        </div>
+      </section>
+
+
+
+<!--
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <a class="icon-link" href="#">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+            </div>
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>[1] Jonathan Ho, Tim Salimans, Alexey A Gritsenko, William Chan, Mohammad Norouzi, and David
+                            J Fleet. Video
+                            diffusion models. In
+                            ICLR, 2022.</p>
+                        <p>[2] Wenyi Hong, Ming Ding, Wendi Zheng, Xinghan Liu, and Jie Tang. Cogvideo: Large-scale
+                            pretraining for
+                            text-to-video generation
+                            via transformers. In ICLR, 2023.</p>
+                        <p>[3] Luo, Zhengxiong and Chen, Dayou and Zhang, Yingya and Huang, Yan and Wang, Liang and Shen, Yujun and Zhao, Deli and Zhou, Jingren and Tan, Tieniu
+                            VideoFusion: Decomposed Diffusion Models for High-Quality Video Generation. In CVPR, 2023.</p>
+
+                        <p>[4] He, Yingqing, et al. "Latent video diffusion models for high-fidelity video generation with arbitrary lengths." arXiv preprint(2022).</p>
+
+
+                        <hr>
+                        <p>
+                            Tempolate from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, thanks!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+-->
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <a class="icon-link" href="#">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+            </div>
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>[1] Li, J., Jain, J., & Shi, H. (2024). Matting anything. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 1775-1785).</p>
+                        <p>[2] Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., ... & Girshick, R. (2023). Segment anything. In Proceedings of the IEEE/CVF International Conference on Computer Vision (pp. 4015-4026).</p>
+                        <p>[3] Ravi, N., Gabeur, V., Hu, Y. T., Hu, R., Ryali, C., Ma, T., ... & Feichtenhofer, C. (2024). Sam 2: Segment anything in images and videos. arXiv preprint arXiv:2408.00714.</p>
+                        <p>[4] Zhang, L., & Agrawala, M. (2024). Transparent image layer diffusion using latent transparency. arXiv preprint arXiv:2402.17113.</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="VSD2M">
+    <meta name="keywords" content="Text-to-Video, Diffusion Model">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VSD2M</title>
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.svg">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+
+<section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+                <img class="center" width="120" height="50" src="visual/VSD2M.png">
+                : A Large-scale Vision-language Sticker Dataset for Multi-frame Animated Sticker Generation
+            </h1>
+            <div class="is-size-5 publication-authors">
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+
+
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv (Released Later)</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href=""
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Data & Code (Released Later)</span>
+                    </a>
+                </span>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+                As a common form of communication in social media, stickers win users’ love in the internet scenarios, for their ability to convey emotions in a vivid, cute, and interesting way.
+                People prefer to get an appropriate sticker through retrieval rather than creation for the reason that creating a sticker is time-consuming and depends on rule-based creative tools with limited capabilities.
+                Nowadays, advanced text-to-video algorithms spawn lots of general video generation systems for users to customize high-quality photo-realistic videos by only providing simple text prompts.
+                However, creating the customized animated sticker, which has lower frame rates and more abstract semantics than video, is greatly hindered by difficulties in data acquisition and incomplete benchmarks.
+                To facilitate the exploration of researchers in animated sticker generation (ASG) field, we firstly construct the currently largest vision-language sticker dataset named ``VSD2M'' at a two-million scale that contains static and animated stickers.
+                Secondly, to enhance the performance of traditional video generation methods on ASG tasks with discrete characteristics, we come up with a <b>S</b>patio <b>T</b>emporal <b>I</b>nteraction (STI) layer that uses semantic interaction and detail preservation to alleviate the insufficient utilization of information.
+                Moreover, we train baselines with several video generation methods (<i>e.g.,</i> transformer-based, diffusion-based methods) on VSD2M and conduct a detailed analysis to establish systemic guidances on ASG task.
+                To the best of our knowledge, this is the first large-scale benchmark for multi-frame animated sticker generation, and we hope that this work can give valuable inspiration for other scholars in intelligent creation.
+            </p>
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+
+    <section class="section" id="datasets">
+        <hr />
+        <h2 class="title is-3">VSD2M Dataset</h2>
+
+
+        <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+        height="160" src="visual/assets/pipeline.jpg"></td>
+        <center>
+            <h5 class="title is-6">Overview of data collection and processing, which can be divided into four stages: web crawling, data filtering, annotation and dataset spliting. During the data annotation process, we use manually labeled data to fine-tune different models to obtain high-quality semi-automatic annotation results.</h5>
+        </center>
+
+        <br />
+        <br />
+
+        <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+        height="160" src="visual/assets/trigger_word_freq.png"></td>
+        <center>
+            <h5 class="title is-6">Visual analysis of VSD2M. (a) Frequency count of top 25 trigger words. (b) Statistics of frame number, note that we only count multi-frame animated stickers. (c) Frequency count of top 35 words in descriptions. (d) Statistics of caption length.</h5>
+        </center>
+
+
+        <br />
+        <br />
+
+        <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="1280"
+        height="160" src="visual/assets/statistic.png"></td>
+        <center>
+            <h5 class="title is-6">Static information comparison of different vision-language sticker datasets.</h5>
+        </center>
+    </section>
+
+
+    <section class="section" id="STI Layer for Sticker Generation">
+        <hr />
+            <h2 class="title is-3">STI Layer for Animated Sticker Generation</h2>
+            <table align="center">
+                <div class="center-text">
+                </div>
+                <br>
+                <tr>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:15px"><b>Prompt</b></td>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:15px"><b>VideoLDM [1]</b></td>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:15px"><b>VideoFactory [2]</b></td>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:15px"><b>I2VGen-XL [3]</b></td>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:15px"><b>Ours</b></td>
+                </tr>
+                <tr>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:13px">A cute rabbit setting off firecrackers</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case1/videoldm_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case1/videofactory_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case1/i2vgen_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case1/our.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:13px">A little bear waving his hands up and down</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case2/videoldm_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case2/videofactory_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case2/i2vgen_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case2/our.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:13px">A little man with a pair of rabbit ears is sleeping in the quilt with stars in the sky</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case7/videoldm_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case7/videofactory_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case7/i2vgen_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case7/our.gif"></td>
+                </tr>
+
+                <tr>
+                    <td width="160" valign="middle" halign="middle" align="center"
+                        style="font-size:13px">A cartoon little fox waving with a heart above his head</td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case6/videoldm_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case6/videofactory_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case6/i2vgen_res.gif"></td>
+                    <td align="center" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/method_comp/case6/our.gif"></td>
+                </tr>
+
+            </table>
+            <center>
+           <h5 class="title is-6">Comparison with other methods</h5>
+            </center>
+
+            <br />
+            <br />
+
+            </table>
+            <table align="center">
+                <div class="large-4 columns">
+                </div>
+                <br>
+
+                 <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/0a326742cfb9f4d083440cea3a5b4093_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/0a664dd5572c1afa45cc6e340e63232d_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/0b36a5799f46e2930382c1673bea6511_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/3d8a8885092e2c420c4f2dc6092c9cef_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/4b0ea57fed403a0c096f55300d1dcf52_pred.gif"></td>
+                </tr>
+                 <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/6cc3d671406db3ed04cd48709e39f89a_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/4fd939a52507d5ece76eb6ce4bb042b7_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/04fc3e8380cf82dbff1ff6f37487c49f_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/5ace3da30c79eb2ba8f1e26160d47e33_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/ac76a596bdb09e1b33fdeb81ff7161be_pred.gif"></td>
+                </tr>
+                 <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/6ba8853c6ddd50349961e81fb42c4d49_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/07fdf9ea0f190e413b8fe1bac3e0d0d0_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/8b9b10bb6d4a4c8cf6f28d5947fe6f1e_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/8b9149dd12f158cf0655bc26ccb1ce41_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/9b372bd7806bb224bbdd64b5713f3cad_pred.gif"></td>
+                </tr>
+                 <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/17b57f94de3a7a7f6c878874741d63ab_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/26c5d7c8f3ada51bc346211df48c5b83_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/30b63fcf50bbfd4c85afcad0f1c4a510_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/ddf3b2acf4c843af95b0a3d20b2f0ac5_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/c013790327eb05ab3912a9d024318849_pred.gif"></td>
+                </tr>
+                 <tr>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/adce925fd92a4f6709b775d90f42e60c_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/b5e71226e8109ef75ad3d4e1e6ebb997_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/3210e3c44aea10b274c6176cdb554a88_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/87842103170898ebc6c0216cc0f287dc_pred.gif"></td>
+                    <td align="left" style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="160"
+                            height="160" src="visual/results_generation/a12d15845984e0d0e4c3f194b0457014_pred.gif"></td>
+                </tr>
+            </table>
+            <center>
+                <h5 class="title is-6">More results generated based on VSD2M</h5>
+            </center>
+
+        </center>
+    </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3"> Challenges and Future Works</h2>
+          <div class="content has-text-justified">
+            <p>
+                As a novel task that urgently needs to be explored, ASG task plays an important role in user interaction and chat communities.
+However, compared with video generation task in general fields, ASG task present some unique challenges:
+            <li>Due to the need for manual creation and copyright issues, the collection of emoticons is greatly limited and can only be obtained from a small number of websites.
+    Few sticker samples are difficult to train a robust generative model, for this reason the fine-tuning methods such as PEFT need to be introduced to reduce the
+    demand for samples.</li>
+                <li>    Sticker usually covers a large number of scenes (i.e. cartoon and real scenes), while for a specific scene, they contain action, characters, etc. that are often interesting and rare for generic scenes.
+    On the other hand, stickers always contain a large amount of optical characters to highlight the theme, and the distribution of these texts is messy and difficult to model.
+    In this scenario, the generative model may need to adapt to scaling law by employing more parameters to handle such a distribution.</li>
+                <li>     For animated stickers, the diversity and abstraction of content makes it difficult to divide the actions at a fine-grained level, which makes the model lacks perception of motion during learning.
+   In addition, stickers are difficult to describe. For example, a dog in one sticker is greatly different from another, and the text can not be fully used to better distinguish.
+                    How to control the fine-grained subject and motion in the sticker is one of the urgent issues that need to be studied.</li>
+            </p>
+
+<p>
+    Under the above challenges, there are also some corresponding opportunities in ASG field:
+     <li>Collecting larger-scale data and using self-supervised or supervised methods to obtain pre-trained models for ASG task is an important milestone.
+    By learning the common features in stickers, the pre-trained model can quickly iterate on downstream tasks, thus greatly promoting the development of this field.  </li>
+    <li>The cartoon stickers usually consist of simple lines and color blocks, with much less texture than the nature scene.
+    While for lines and blocks, the two distributions are extremely different in the frequency domain, and it may be necessary to disassemble and reconstruct them separately.</li>
+    <li>The creation of artificial stickers is often based on the process of sketching-coloring, and how to model ASG task based on this process is also a promising direction.
+    Whether the sticker generation can be broken down into sketching and coloring, thereby reducing the modeling difficulty and improving the sample quality, is an interesting appraoch that needs to be explored.</li>
+    <li>Similar to natural scenes, how to achieve detailed control in the generation process is also an indispensable part in intelligent creation.
+    Characterization of subjects and modeling of action will inevitably become one of the bottlenecks in generating high-quality stickers.</li>
+</p>
+
+
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <p> If you use our work in your research, please cite: </p>
+          <pre><code>
+            @misc{anonymous2024vsd2m,
+            title={VSD2M: A Large-scale Vision-language Sticker Dataset for Multi-frame Animated Sticker Generation},
+            author={Anonymous},
+            year={2024},
+            archivePrefix={arXiv},
+            primaryClass={cs.CV}}
+      </code></pre>
+        </div>
+      </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <a class="icon-link" href="#">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+            </div>
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>[1] Blattmann, A., Rombach, R., Ling, H., Dockhorn, T., Kim, S. W., Fidler, S., & Kreis, K. (2023). Align your latents: High-resolution video synthesis with latent diffusion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 22563-22575).</p>
+
+                        <p>[2] Wang W, Yang H, Tuo Z, et al. Videofactory: Swap attention in spatiotemporal diffusions for text-to-video generation[J]. 2023.</p>
+
+                        <p>[3] Zhang, S., Wang, J., Zhang, Y., Zhao, K., Yuan, H., Qin, Z., ... & Zhou, J. (2023). I2vgen-xl: High-quality image-to-video synthesis via cascaded diffusion models. arXiv preprint arXiv:2311.04145.</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>

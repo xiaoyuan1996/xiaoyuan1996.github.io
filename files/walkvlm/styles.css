@@ -1,0 +1,14 @@
+.video-container {
+    display: flex; /* 使用Flexbox布局 */
+    overflow-x: auto; /* 允许水平滚动 */
+    gap: 10px; /* 视频之间的间距 */
+}
+
+.video-item {
+    flex: 0 0 auto; /* 不伸缩，不收缩，自动宽度 */
+}
+
+.video-item video {
+    width: 100%; /* 视频宽度占满父容器 */
+    height: auto; /* 高度自适应 */
+}
