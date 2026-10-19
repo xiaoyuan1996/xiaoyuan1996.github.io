@@ -1,54 +1,5 @@
 /* Site-level overrides layered on top of the original project-page styles. */
 
-/* ---------- Back navigation ---------- */
-.site-backnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, .9);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid #e6e8ee;
-}
-
-.site-backnav-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: "Noto Sans", "Google Sans", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  font-size: .9rem;
-}
-
-.site-backnav a {
-  color: #2c5fd6;
-  font-weight: 500;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.site-backnav a:hover {
-  text-decoration: underline;
-}
-
-.site-backnav-sep {
-  color: #c9ced9;
-}
-
-.site-backnav-current {
-  color: #7b8393;
-  font-weight: 500;
-}
-
-/* Keep the original hero from being pushed too far down by the bar. */
-.site-backnav + .hero .hero-body {
-  padding-top: 2.6rem;
-}
-
 /* ---------- Responsive media ---------- */
 img {
   max-width: 100%;
